@@ -2,27 +2,50 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
     name: {
-        type: String,
-        required: true
+        en: { type: String, required: true, trim: true },
+        pa: { type: String, required: true, trim: true }
     },
     price: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
     },
     quantity: {
-        type: String,
-        required: true
+        value: { type: Number, required: true },
+        unit: {
+            type: String,
+            enum: ['kg', 'g', 'ml', 'l', 'pcs', 'packet'],
+            required: true
+        }
     },
     category: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
-    stock: {
+    hasDiscount: {
+        type: Boolean,
+        default: false
+    },
+    discountPrice: {
         type: Number,
-        default: 0
+        validate: {
+            validator: function (val) {
+                if (this.hasDiscount) {
+                    return val != null && val < this.price;
+                }
+                return true;
+            },
+            message: "Discount price must be less than original price"
+        }
+    },
+    isOutOfStock: {
+        type: Boolean,
+        default: false
     },
     image: {
-        type: String
+        type: String,
+        default: "https://images.unsplash.com/photo-1506617424156-76ba6e9c93a2?q=80&w=800&auto=format&fit=crop"
     }
 }, { timestamps: true });
 
