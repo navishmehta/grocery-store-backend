@@ -3,6 +3,7 @@ const Product = require("../models/Product");
 // Create a new product
 exports.createProduct = async (req, res) => {
     try {
+        console.log("Incoming Product Data (req.body):", JSON.stringify(req.body, null, 2));
         const productData = { ...req.body };
 
         if (req.file) productData.image = req.file.path;

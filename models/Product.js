@@ -1,22 +1,18 @@
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
-    name: {
-        en: { type: String, required: true, trim: true },
-        pa: { type: String, required: true, trim: true }
-    },
+    nameEn: { type: String, required: true, trim: true },
+    namePa: { type: String, required: true, trim: true },
     price: {
         type: Number,
         required: true,
         min: 0
     },
-    quantity: {
-        value: { type: Number, required: true },
-        unit: {
-            type: String,
-            enum: ['kg', 'g', 'ml', 'l', 'pcs', 'packet'],
-            required: true
-        }
+    qtyValue: { type: Number, required: true },
+    qtyUnit: {
+        type: String,
+        enum: ['kg', 'g', 'ml', 'l', 'pcs', 'packet'],
+        required: true
     },
     category: {
         type: String,
