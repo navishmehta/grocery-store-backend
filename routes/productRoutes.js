@@ -10,6 +10,7 @@ router.get('/', productController.getProducts);
 router.get('/categories', productController.getCategories);
 router.get('/name/:name', productController.getProductsByName);
 router.get('/:id', productController.getProductById);
+router.post('/validate-cart', productController.validateCart);
 
 // private routes
 router.post('/', protect, upload.single('image'), validateProduct, productController.createProduct);

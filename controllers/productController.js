@@ -133,3 +133,22 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+// validate cart
+exports.validateCart = async (req, res) => {
+    try {
+
+        const { itemIds } = req.body;
+        const unavailable = await Product.find({
+            _id: { $in: itemIds },
+            isOutOfStock: true
+        }).select('_id name');
+
+        res.status(200).json({
+            success: true,
+            unavailableIds: unavailable.map(p => p._id)
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
